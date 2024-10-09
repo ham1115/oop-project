@@ -13,4 +13,17 @@ public class Goods {
     public List<String> getAllGoodsTypes() {
         return goodsTypes;
     }
+
+    public class Vehicle {
+        private final List<String> vehicleTypes = Arrays.asList("bike", "motorcycle", "car", "van", "truck");
+
+        public boolean isValidVehicleType(String vehicleType) {
+            return vehicleTypes.contains(vehicleType.toLowerCase());
+    }
+    public List<String> getAllVehicleTypes() {
+        return  vehicleTypes;
+
+    }
+}
+
 }

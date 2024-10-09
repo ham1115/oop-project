@@ -32,7 +32,6 @@ public class Main {
                         System.out.print("Enter Agent's ID to delete: ");
                         int deleteID = Integer.parseInt(userInterface.getUserInput());
                         agentManager.removeAgent(deleteID);
-                        userInterface.displayDeletionSuccess();
                     } catch (NumberFormatException e) {
                         userInterface.displayErrorMessage("Invalid input. Please enter a valid number.");
                     }

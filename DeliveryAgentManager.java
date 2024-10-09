@@ -2,36 +2,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryAgentManager {
-    private List<DeliveryAgent> agentsList;
+    private List<DeliveryAgent> agentsList = new ArrayList<>();
 
-    public DeliveryAgentManager() {
-        this.agentsList = new ArrayList<>();
-    }
-
-    // adds a new agent to the list
     public void addAgent(DeliveryAgent agent) {
         agentsList.add(agent);
     }
 
-    // removes an agent based on agentID
     public void removeAgent(int agentID) {
-        agentsList.removeIf(agent -> agent.getAgentID() == agentID);
-    }
-
-    /* tentative
-    public void updateAgent(DeliveryAgent updatedAgent) {
-        for (int i = 0; i < agentsList.size(); i++) {
-            if (agentsList.get(i).getAgentID() == updatedAgent.getAgentID()) {
-                agentsList.set(i, updatedAgent);
-                break;
-            }
+        DeliveryAgent agent = getAgentById(agentID);
+        if (agent != null) {
+            agentsList.remove(agent);
+            System.out.println("Agent removed successfully.");
+        } else {
+            System.out.println("Error: Agent ID not found.");
         }
-    }
-     */
-
-    // returns a list of all registered agents
-    public List<DeliveryAgent> getAllAgents() {
-        return agentsList;
     }
 
     public DeliveryAgent getAgentById(int agentID) {
@@ -43,11 +27,17 @@ public class DeliveryAgentManager {
         return null;
     }
 
-    public Vehicle getVehicleValidator() {
-        return new Vehicle();
+    public void updateAgent(int agentID, String name, long contactNumber, String vehicleType, String goodsType) {
+        DeliveryAgent agent = getAgentById(agentID);
+        if (agent != null) {
+            agent.updateAgentDetails(name, contactNumber, vehicleType, goodsType);
+            System.out.println("Agent updated successfully.");
+        } else {
+            System.out.println("Error: Agent ID not found.");
+        }
     }
 
-    public Goods getGoodsValidator() {
-        return new Goods();
+    public List<DeliveryAgent> getAllAgents() {
+        return agentsList;
     }
 }

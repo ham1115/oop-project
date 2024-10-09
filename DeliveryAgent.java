@@ -1,15 +1,12 @@
-public class DeliveryAgent {
+public class DeliveryAgent extends Person {
     private int agentID;
-    private int contactNumber;
     private String vehicleType;
-    private String name;
     private String goodsType;
     private boolean availability;
 
-    public DeliveryAgent(int agentID, String name, int contactNumber, String vehicleType, String goodsType, boolean availability) {
+    public DeliveryAgent(int agentID, String name, long contactNumber, String vehicleType, String goodsType, boolean availability) {
+        super(name, contactNumber);
         this.agentID = agentID;
-        this.name = name;
-        this.contactNumber = contactNumber;
         this.vehicleType = vehicleType;
         this.goodsType = goodsType;
         this.availability = availability;
@@ -17,22 +14,6 @@ public class DeliveryAgent {
 
     public int getAgentID() {
         return agentID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(int contactNumber) {
-        this.contactNumber = contactNumber;
     }
 
     public String getVehicleType() {
@@ -59,10 +40,20 @@ public class DeliveryAgent {
         this.availability = availability;
     }
 
-    public void updateAgentDetails(String name, int contactNumber, String vehicleType, String goodsType) {
+    public void updateAgentDetails(String name, long contactNumber, String vehicleType, String goodsType) {
         setName(name);
         setContactNumber(contactNumber);
         setVehicleType(vehicleType);
         setGoodsType(goodsType);
+    }
+
+    @Override
+    public String toString() {
+        return "Agent ID: " + agentID + "\n" +
+        "Name: " + getName() + "\n" +
+        "Contact Number: " + getContactNumber() + "\n" +
+        "Vehicle Type: " + getVehicleType() + "\n" +
+        "Goods Type: " + getGoodsType() + "\n" +
+        "Availability: " + isAvailability();
     }
 }
