@@ -1,10 +1,10 @@
 import java.util.Scanner;
 import java.util.List;
 
-public class UserInterface {
+public class UserInterface extends ExceptionHandling {
     private Scanner scanner = new Scanner(System.in);
-    private Goods goods = new Goods();
-    private Vehicle vehicle = new Vehicle();
+    private GoodsInterface goods = new Goods();
+    private VehicleInterface vehicle = new Vehicle();
 
     public void displayMenu() {
         System.out.println("===== Delivery Management System =====");
@@ -18,7 +18,6 @@ public class UserInterface {
     public String getUserInput() {
         return scanner.nextLine();
     }
-
 
     public void handleRegistration(DeliveryAgentManager agentManager) {
         try {
@@ -35,8 +34,8 @@ public class UserInterface {
                 try {
                     contactNumber = Long.parseLong(getUserInput());
                     break;
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid contact number.");
+                } catch (Exception e) {
+                    handleInvalidInputException();
                 }
             }
 
@@ -67,11 +66,9 @@ public class UserInterface {
             agentManager.addAgent(agent);
             System.out.println("Agent registered successfully.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            handleInvalidInputException();
         }
     }
-
-
 
     public String capitalizeString(String str) {
         String[] words = str.split(" ");
@@ -80,9 +77,6 @@ public class UserInterface {
         }
         return String.join(" ", words);
     }
-
-
-
 
     public void handleUpdate(DeliveryAgentManager agentManager, int agentID) {
         try {
@@ -103,7 +97,6 @@ public class UserInterface {
                 vehicleType = capitalizeString(vehicleType);
             }
 
-
             System.out.print("Enter new goods type: ");
             String goodsType = getUserInput();
             goodsType = capitalizeString(goodsType);
@@ -114,10 +107,11 @@ public class UserInterface {
                 goodsType = capitalizeString(goodsType);
             }
 
+
             agentManager.updateAgent(agentID, name, contactNumber, vehicleType, goodsType);
             System.out.println("Agent updated successfully.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            handleAgentNotFoundException();
         }
     }
 
@@ -138,13 +132,12 @@ public class UserInterface {
             }
             }
         }
-    
 
     public void displayDeletionSuccess() {
         System.out.println("Agent deleted successfully.");
     }
 
     public void displayErrorMessage(String message) {
-        System.out.println("Error: " + message);
+        handleGeneralException(message);
     }
 }

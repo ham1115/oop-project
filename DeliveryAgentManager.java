@@ -3,6 +3,7 @@ import java.util.List;
 
 public class DeliveryAgentManager {
     private List<DeliveryAgent> agentsList = new ArrayList<>();
+    UserInterface userInterface = new UserInterface();
 
     public void addAgent(DeliveryAgent agent) {
         agentsList.add(agent);
@@ -12,7 +13,7 @@ public class DeliveryAgentManager {
         DeliveryAgent agent = getAgentById(agentID);
         if (agent != null) {
             agentsList.remove(agent);
-            System.out.println("Agent removed successfully.");
+            userInterface.displayDeletionSuccess();
         } else {
             System.out.println("Error: Agent ID not found.");
         }
@@ -31,7 +32,6 @@ public class DeliveryAgentManager {
         DeliveryAgent agent = getAgentById(agentID);
         if (agent != null) {
             agent.updateAgentDetails(name, contactNumber, vehicleType, goodsType);
-            System.out.println("Agent updated successfully.");
         } else {
             System.out.println("Error: Agent ID not found.");
         }

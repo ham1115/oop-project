@@ -1,15 +1,15 @@
 import java.util.Arrays;
 import java.util.List;
 
-public class Vehicle {
+public class Vehicle implements VehicleInterface {
     private final List<String> vehicleTypes = Arrays.asList("bike", "motorcycle", "car", "van", "truck");
 
-    // validates if the given goods type is correct
+    @Override
     public boolean isValidVehicleType(String vehicleType) {
         return vehicleTypes.contains(vehicleType.toLowerCase());
     }
 
-    // tentative
+    @Override
     public List<String> getAllVehicleTypes() {
         return vehicleTypes;
     }
