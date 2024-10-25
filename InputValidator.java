@@ -2,7 +2,6 @@ public class InputValidator {
 
     public boolean validateName(String name) {
         return name != null && name.trim().split(" ").length >= 2;
-        
     }
 
     public boolean validateContactNumber(String contactNumber) {
@@ -28,6 +27,8 @@ public class InputValidator {
                 deliveryType.equalsIgnoreCase("hazardous") ||
                 deliveryType.equalsIgnoreCase("freight");
     }
+
+    public boolean validateAgentID(String agentID) {
+        return agentID.matches("\\d{5}"); // Check if the ID is numeric and 5 digits or less
+    }
 }
-
-

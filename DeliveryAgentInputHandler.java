@@ -10,64 +10,75 @@ public class DeliveryAgentInputHandler {
 
     public DeliveryAgentInputHandler(DeliveryAgentManager manager) {
         this.manager = manager;
-        this.updater = new DeliveryAgentUpdater(manager); // No circular dependency now
+        this.updater = new DeliveryAgentUpdater(manager);
         this.deleter = new DeliveryAgentDeleter(manager);
         this.exceptionHandler = new ExceptionHandling();
         this.validator = new InputValidator();
     }
 
     public void inputAgentDetails() {
-        System.out.println("\n--- Add Delivery Agent ---");
-        try {
-            System.out.print("Enter Agent ID: ");
-            String agentID = scanner.nextLine().trim();
+        System.out.println("\n==================== Add Delivery Agent ====================");
+        System.out.println("============================================================");
+    
+        while (true) { 
+            try {
+                System.out.print("Enter Agent ID (5 digits): ");
+                String agentID = scanner.nextLine().trim();
+                if (!validator.validateAgentID(agentID)) { 
+                    System.out.println("Invalid. Please enter a ID of 5 digits");
+                    continue; 
+                }
 
-            System.out.print("Enter Agent Name (First Last): ");
-            String name = scanner.nextLine().trim();
-            if (!validator.validateName(name)) {
-                exceptionHandler.handleInvalidInputException();
-                return;
+                System.out.print("Enter Agent Name (First Last): ");
+                String name = scanner.nextLine().trim();
+                if (!validator.validateName(name)) {
+                    exceptionHandler.handleInvalidInputException();
+                    continue;
+                }
+                name = NameFormatting.formatName(name);
+
+                System.out.print("Enter Agent Contact Number (11 digits): ");
+                String contactNumber = scanner.nextLine().trim();
+                if (!validator.validateContactNumber(contactNumber)) {
+                    exceptionHandler.handleInvalidInputException();
+                    continue;
+                }
+
+                System.out.print("Enter Vehicle Type (car/bike/motorcycle/truck/van): ");
+                String vehicleType = scanner.nextLine().trim();
+                if (!validator.validateVehicleType(vehicleType)) {
+                    exceptionHandler.handleInvalidInputException();
+                    continue;
+                }
+
+                System.out.print("Enter Agent Availability (true/false): ");
+                String availabilityInput = scanner.nextLine().trim();
+                if (!validator.validateAvailability(availabilityInput)) {
+                    exceptionHandler.handleInvalidInputException();
+                    continue;
+                }
+                boolean available = availabilityInput.equalsIgnoreCase("true");
+
+                System.out.print("Enter Delivery Type (documents/medical/food/hazardous/freight): ");
+                String deliveryType = scanner.nextLine().trim();
+                if (!validator.validateDeliveryType(deliveryType)) {
+                    exceptionHandler.handleInvalidInputException();
+                    continue;
+                }
+
+                DeliveryAgent agent = createDeliveryAgent(name, contactNumber, available, agentID, deliveryType, vehicleType);
+
+                if (agent != null) {
+                    manager.create(agent);
+                    System.out.println("============================================================");
+                    break; 
+                    
+                } else {
+                    exceptionHandler.handleInvalidInputException();
+                }
+            } catch (Exception e) {
+                exceptionHandler.handleGeneralException(e.getMessage());
             }
-            name = NameFormatting.formatName(name);
-
-            System.out.print("Enter Agent Contact Number: ");
-            String contactNumber = scanner.nextLine().trim();
-            if (!validator.validateContactNumber(contactNumber)) {
-                exceptionHandler.handleInvalidInputException();
-                return;
-            }
-
-            System.out.print("Enter Vehicle Type: ");
-            String vehicleType = scanner.nextLine().trim();
-            if (!validator.validateVehicleType(vehicleType)) {
-                exceptionHandler.handleInvalidInputException();
-                return;
-            }
-
-            System.out.print("Enter Agent Availability (true/false): ");
-            String availabilityInput = scanner.nextLine().trim();
-            if (!validator.validateAvailability(availabilityInput)) {
-                exceptionHandler.handleInvalidInputException();
-                return;
-            }
-            boolean available = availabilityInput.equalsIgnoreCase("true");
-
-            System.out.print("Enter Delivery Type (documents/medical/food/hazardous/freight): ");
-            String deliveryType = scanner.nextLine().trim();
-            if (!validator.validateDeliveryType(deliveryType)) {
-                exceptionHandler.handleInvalidInputException();
-                return;
-            }
-
-            DeliveryAgent agent = createDeliveryAgent(name, contactNumber, available, agentID, deliveryType, vehicleType);
-
-            if (agent != null) {
-                manager.create(agent);
-            } else {
-                exceptionHandler.handleInvalidInputException();
-            }
-        } catch (Exception e) {
-            exceptionHandler.handleGeneralException(e.getMessage());
         }
     }
 
@@ -91,12 +102,17 @@ public class DeliveryAgentInputHandler {
 
     public void run() {
         while (true) {
-            System.out.println("\n--- Delivery Agent Management System ---");
+            System.out.println("\n=====================================================");
+            System.out.println("       Delivery Agent Management System       ");
+            System.out.println("=====================================================");
+
             System.out.println("1. Add Delivery Agent");
             System.out.println("2. Update Delivery Agent");
             System.out.println("3. Delete Delivery Agent");
             System.out.println("4. Display Delivery Agents");
             System.out.println("5. Exit");
+            System.out.println("=====================================================");
+            System.out.print("Please select an option: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();

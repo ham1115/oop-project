@@ -12,20 +12,20 @@ public class DeliveryAgentUpdater {
         System.out.print("Enter Agent ID to update: ");
         String agentID = scanner.nextLine();
 
-        DeliveryAgent existingAgent = manager.read(agentID); // Retrieve the existing agent
+        DeliveryAgent existingAgent = manager.read(agentID);
         if (existingAgent == null) {
             System.out.println("Agent not found.");
-            return; // Exit if agent does not exist
+            return; 
         }
 
-        // Use input methods directly within this class
+
         DeliveryAgent updatedAgent = inputUpdatedDetails(existingAgent);
 
-        // Update the agent details
+        
         manager.update(updatedAgent);
     }
 
-    // Input method for updating agent details
+   
     public DeliveryAgent inputUpdatedDetails(DeliveryAgent existingAgent) {
         System.out.print("Enter new name (current: " + existingAgent.getName() + "): ");
         String newName = scanner.nextLine();
@@ -35,14 +35,14 @@ public class DeliveryAgentUpdater {
         System.out.print("Enter new contact number (current: " + existingAgent.getContactNumber() + "): ");
         String newContactNumber = scanner.nextLine();
 
-        System.out.print("Enter new vehicle type (current: " + existingAgent.getVehicleType() + "): ");
+        System.out.print("Enter new vehicle type (current: " + existingAgent.getVehicle().getVehicleType() + "): ");
         String newVehicleType = scanner.nextLine();
 
         System.out.print("Is the agent available? (current: " + existingAgent.isAvailable() + ") (true/false): ");
         boolean newAvailability = scanner.nextBoolean();
         scanner.nextLine();
 
-        // Delegate to a method that handles the updated agent creation based on its type
+        
         return createUpdatedAgent(existingAgent, newName, newContactNumber, newAvailability, newVehicleType);
     }
 

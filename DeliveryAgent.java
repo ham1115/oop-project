@@ -3,62 +3,53 @@ public abstract class DeliveryAgent {
     private String contactNumber;
     private boolean available;
     private String agentID;
-    private String vehicleType;
-    
-    // constructor
+    private Vehicle vehicle; 
+
     public DeliveryAgent(String name, String contactNumber, boolean available, String agentID, String vehicleType) {
         this.name = name;
         this.contactNumber = contactNumber;
         this.available = available;
         this.agentID = agentID;
-        this.vehicleType = vehicleType;
+        this.vehicle = createVehicle(vehicleType); 
     }
 
-    // getters and setters
+    public abstract String getDeliveryType();
+
+    public String getAgentID() {
+        return agentID;
+    }
 
     public String getName() {
-        return name; 
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return name;
     }
 
     public String getContactNumber() {
         return contactNumber;
     }
 
-    public void setContactNumber(String contactNumber) {
-    this.contactNumber = contactNumber;
-    }
-
     public boolean isAvailable() {
         return available;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public Vehicle getVehicle() {
+        return vehicle; 
     }
 
-    public String getAgentID() {
-        return agentID;   
-    }
-
-    public void setAgentID(String agentID) {
-        this.agentID = agentID;     
-    }
-
-    public String getVehicleType() {
-        return vehicleType;
-    }
-
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
-    }
     
-
-    // abstract methods
-
-    public abstract String getDeliveryType();
-
+    private Vehicle createVehicle(String vehicleType) {
+        switch (vehicleType.toLowerCase()) {
+            case "car":
+                return new VCar(vehicleType);
+            case "bike":
+                return new VBike(vehicleType);
+            case "motorcycle":
+                return new VMotorcycle(vehicleType);
+            case "truck":
+                return new VTruck(vehicleType);
+            case "van":
+                return new VVan(vehicleType);
+            default:
+                return null;
+        }
+    }
 }

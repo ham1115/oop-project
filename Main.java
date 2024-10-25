@@ -4,5 +4,4 @@ public class Main {
         DeliveryAgentInputHandler inputHandler = new DeliveryAgentInputHandler(manager);
         inputHandler.run();
     }
-
 }
